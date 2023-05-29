@@ -1,0 +1,19 @@
+{
+  "name": "maxchechel",
+  "version": "1.0.0",
+  "description": "<!-- **MaxChechel/maxchechel** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --sourcemap --minify --outdir=dist",
+    "serve": "esbuild src/index.js --outdir=www/js --bundle --servedir=www"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.17.19"
+  },
+  "dependencies": {
+    "gsap": "^3.11.5",
+    "split-type": "^0.3.3"
+  }
+}
