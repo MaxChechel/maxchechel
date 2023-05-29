@@ -2,6 +2,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { CustomEase } from "gsap/all";
 import SplitType from "split-type";
+import { Flip } from "gsap/all";
 import Lenis from "@studio-freight/lenis";
 
 window.addEventListener("DOMContentLoaded", (event) => {
