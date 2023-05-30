@@ -5,7 +5,7 @@ import SplitType from "split-type";
 import { Flip } from "gsap/all";
 import Lenis from "@studio-freight/lenis";
 
-registerPlugin(ScrollTrigger, CustomEase, Flip);
+gsap.registerPlugin(ScrollTrigger, CustomEase, Flip);
 
 window.addEventListener("DOMContentLoaded", (event) => {
   //Split type
