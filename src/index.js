@@ -8,6 +8,21 @@ import Lenis from "@studio-freight/lenis";
 gsap.registerPlugin(ScrollTrigger, CustomEase, Flip);
 
 window.addEventListener("DOMContentLoaded", (event) => {
+  const lenis = new Lenis();
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  lenis.on("scroll", ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+
   //Split type
   let splitText = new SplitType(".text-link_text, .projects_split-text", {
     types: "chars",
@@ -22,21 +37,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
   );
   const textLinks = document.querySelectorAll(".text-link_wrap");
   const textOnScroll = document.querySelectorAll("[data-scroll-text] .word");
-  gsap.registerPlugin(ScrollTrigger, CustomEase);
   const customEaseIn = CustomEase.create(
     "custom-ease-in",
     "0.47, 0.00, 0.49, 1.00"
   );
-  const customEaseIn2 = CustomEase.create(
-    "custom-ease-in-2",
-    "0.17, 0.17, 0.34, 1.00"
-  );
-
-  /////////////////////
   const headerPad = document.querySelector(".header_section-pad");
   const heroCta = document.querySelector(".header_cta-wrap .button-wrapper");
   const heroTl = gsap.timeline({ paused: true });
 
+  //Hero reveal animation
   heroTl
     .to(".header_load-line", {
       width: "100%",
@@ -121,7 +130,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       "< 0.1"
     );
   heroTl.restart();
-  ////////////////////
+  //hero reveal end
 
   let mm = gsap.matchMedia();
   mm.add("(hover:hover)", () => {
@@ -146,6 +155,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       });
     });
     //text links hover end
+
     //Cards hover
     gsap.set(".projects_split-text", {
       autoAlpha: 1,
@@ -211,6 +221,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         padReveal.reverse();
       });
     });
+
     //Blog list items hover
     const listItems = document.querySelectorAll(".blog-list_item"),
       shape = document.querySelector(".blog-list_pad"),
@@ -261,21 +272,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         ease: "power2.out",
       });
     });
-    /////////////////////////
-  });
-  const lenis = new Lenis();
-
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-
-  requestAnimationFrame(raf);
-
-  lenis.on("scroll", ScrollTrigger.update);
-
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1200);
   });
 
   //Text on scroll
@@ -300,8 +296,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
       },
     }
   );
+
   //Bottom letters reveal
-  gsap.registerPlugin(ScrollTrigger);
   const contactSection = document.querySelector(".section_contact");
   const letters = document.querySelectorAll(".footer_text-logo path");
   const lettersTl = gsap.timeline({ paused: true });
@@ -329,5 +325,3 @@ window.addEventListener("DOMContentLoaded", (event) => {
     },
   });
 });
-
-////////////////////
