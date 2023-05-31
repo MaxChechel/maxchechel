@@ -5,6 +5,21 @@ import SplitType from "split-type";
 import Lenis from "@studio-freight/lenis";
 
 window.addEventListener("DOMContentLoaded", (event) => {
+  const lenis = new Lenis();
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  lenis.on("scroll", ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1200);
+  });
+
   //Split type
   let splitText = new SplitType(".text-link_text, .projects_split-text", {
     types: "chars",
@@ -258,21 +273,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         ease: "power2.out",
       });
     });
-    /////////////////////////
-  });
-  const lenis = new Lenis();
-
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-
-  requestAnimationFrame(raf);
-
-  lenis.on("scroll", ScrollTrigger.update);
-
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1200);
   });
 
   //Text on scroll
