@@ -132,6 +132,22 @@ window.addEventListener("DOMContentLoaded", (event) => {
   heroTl.restart();
   //hero reveal end
 
+  //Text on scroll
+  const textRevealTl = gsap.timeline({ paused: true });
+  textRevealTl.to(textOnScroll, {
+    opacity: 1,
+    stagger: 0.05,
+  });
+  ScrollTrigger.create({
+    trigger: textOnScroll,
+    start: "top 30%",
+    end: "top 0%",
+    onEnter: () => {
+      textRevealTl.restart();
+    },
+  });
+  //text on scroll
+
   let mm = gsap.matchMedia();
   mm.add("(hover:hover)", () => {
     //Text links hover
@@ -273,29 +289,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
       });
     });
   });
-
-  //Text on scroll
-
-  gsap.fromTo(
-    textOnScroll,
-    {
-      "will-change": "opacity",
-      opacity: 0.05,
-    },
-    {
-      ease: "none",
-      opacity: 1,
-      stagger: 0.05,
-      scrollTrigger: {
-        trigger: "[data-scroll-text]",
-        start: "top 10%",
-        end: "bottom 50%",
-        scrub: 1.2,
-        pin: true,
-        pinSpacing: true,
-      },
-    }
-  );
 
   //Bottom letters reveal
   const contactSection = document.querySelector(".section_contact");
