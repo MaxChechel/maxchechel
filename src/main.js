@@ -28,6 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
     types: "chars",
     tagName: "char",
   });
+
   const splitWords = new SplitType(
     "[data-hover-card='text'], [data-scroll-text], [data-hero-heading]",
     {
@@ -35,6 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
       tagName: "word",
     }
   );
+  console.log(splitText, splitWords);
   const textLinks = document.querySelectorAll(".text-link_wrap");
   const textOnScroll = document.querySelectorAll("[data-scroll-text] .word");
   gsap.registerPlugin(ScrollTrigger, CustomEase);
@@ -139,7 +141,7 @@ window.addEventListener("DOMContentLoaded", () => {
     //Text links hover
     textLinks.forEach((link) => {
       const text = link.querySelectorAll(".text-link_text-wrap .char");
-      const textAbs = link.querySelectorAll(".text-link_text.is-abs .char");
+      //const textAbs = link.querySelectorAll(".text-link_text.is-abs .char");
       const textRotateTl = gsap.timeline({ paused: true });
       textRotateTl.to(text, {
         ease: "power3.out",
@@ -213,7 +215,7 @@ window.addEventListener("DOMContentLoaded", () => {
         0.1
       );
 
-      card.addEventListener("mouseenter", (e) => {
+      card.addEventListener("mouseenter", () => {
         textReveal.restart();
         padReveal.restart();
       });
@@ -231,8 +233,8 @@ window.addEventListener("DOMContentLoaded", () => {
     listItems[listItems.length - 1].classList.add("is-last");
 
     listItems.forEach(function (li) {
-      li.addEventListener("mouseover", function (e) {
-        let currentItem = e.target;
+      li.addEventListener("mouseover", function () {
+        //let currentItem = e.target;
         let state = Flip.getState(".blog-list_pad", { props: "height" });
         li.appendChild(shape);
         Flip.from(state, {
@@ -255,7 +257,7 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    listsParent.addEventListener("mouseover", function (e) {
+    listsParent.addEventListener("mouseover", function () {
       shape.classList.add("is-active");
 
       let state = Flip.getState(".blog-list_pad", { props: "height" });
@@ -264,7 +266,7 @@ window.addEventListener("DOMContentLoaded", () => {
         ease: "power2.out",
       });
     });
-    listsParent.addEventListener("mouseleave", function (e) {
+    listsParent.addEventListener("mouseleave", function () {
       shape.classList.remove("is-active");
       let state = Flip.getState(".blog-list_pad", { props: "height" });
       Flip.from(state, {
