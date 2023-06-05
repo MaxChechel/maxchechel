@@ -12,11 +12,10 @@ export default defineConfig({
     entryFileNames: "index.js",
     rollupOptions: {
       input: "./src/main.js",
-      output: [
-        {
-          file: "index.js",
-        },
-      ],
+      output: {
+        format: "umd",
+        file: "bundle.js",
+      },
     },
   },
 });
