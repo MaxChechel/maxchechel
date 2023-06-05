@@ -1,10 +1,11 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { CustomEase } from "gsap/all";
+import { Flip } from "gsap/all";
 import SplitType from "split-type";
 import Lenis from "@studio-freight/lenis";
 
-window.addEventListener("DOMContentLoaded", (event) => {
+window.addEventListener("DOMContentLoaded", () => {
   const lenis = new Lenis();
 
   function raf(time) {
@@ -21,11 +22,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
   });
 
   //Split type
-  let splitText = new SplitType(".text-link_text, .projects_split-text", {
+  const splitText = new SplitType(".text-link_text, .projects_split-text", {
     types: "chars",
     tagName: "char",
   });
-  let splitWords = new SplitType(
+  const splitWords = new SplitType(
     "[data-hover-card='text'], [data-scroll-text], [data-hero-heading]",
     {
       types: "lines, words",
@@ -38,10 +39,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
   const customEaseIn = CustomEase.create(
     "custom-ease-in",
     "0.47, 0.00, 0.49, 1.00"
-  );
-  const customEaseIn2 = CustomEase.create(
-    "custom-ease-in-2",
-    "0.17, 0.17, 0.34, 1.00"
   );
 
   /////////////////////

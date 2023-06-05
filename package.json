@@ -9,7 +9,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^4.3.9"
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "2.8.8",
+    "vite": "^4.3.9",
+    "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.13",
