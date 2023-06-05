@@ -7,7 +7,7 @@ export default defineConfig({
     port: 3000,
   },
   build: {
-    minify: false,
+    minify: true,
     manifest: true,
     rollupOptions: {
       output: {
