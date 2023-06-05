@@ -5,6 +5,8 @@ import { Flip } from "gsap/all";
 import SplitType from "split-type";
 import Lenis from "@studio-freight/lenis";
 
+console.log("heeeelooo");
+
 window.addEventListener("DOMContentLoaded", () => {
   const lenis = new Lenis();
 
