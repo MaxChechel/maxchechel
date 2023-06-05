@@ -5,29 +5,48 @@ import { Flip } from "gsap/all";
 import SplitType from "split-type";
 import Lenis from "@studio-freight/lenis";
 
-window.addEventListener("DOMContentLoaded", (event) => {
+gsap.registerPlugin(ScrollTrigger, Flip, CustomEase);
+
+// Lenis smooth scrolling
+let lenis;
+
+// Initialize Lenis smooth scrolling
+const initSmoothScrolling = () => {
+  lenis = new Lenis({});
+
+  lenis.on("scroll", () => ScrollTrigger.update());
+
+  const scrollFn = (time) => {
+    lenis.raf(time);
+    requestAnimationFrame(scrollFn);
+  };
+
+  requestAnimationFrame(scrollFn);
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+  initSmoothScrolling();
+
   //Split type
-  let splitText = new SplitType(".text-link_text, .projects_split-text", {
+  const splitText = new SplitType(".text-link_text, .projects_split-text", {
     types: "chars",
     tagName: "char",
   });
-  let splitWords = new SplitType(
+
+  const splitWords = new SplitType(
     "[data-hover-card='text'], [data-scroll-text], [data-hero-heading]",
     {
       types: "lines, words",
       tagName: "word",
     }
   );
+
   const textLinks = document.querySelectorAll(".text-link_wrap");
   const textOnScroll = document.querySelectorAll("[data-scroll-text] .word");
   gsap.registerPlugin(ScrollTrigger, CustomEase);
   const customEaseIn = CustomEase.create(
     "custom-ease-in",
     "0.47, 0.00, 0.49, 1.00"
-  );
-  const customEaseIn2 = CustomEase.create(
-    "custom-ease-in-2",
-    "0.17, 0.17, 0.34, 1.00"
   );
 
   /////////////////////
@@ -119,14 +138,35 @@ window.addEventListener("DOMContentLoaded", (event) => {
       "< 0.1"
     );
   heroTl.restart();
-  ////////////////////
+
+  //Text on scroll
+  gsap.fromTo(
+    textOnScroll,
+    {
+      "will-change": "opacity",
+      opacity: 0.05,
+    },
+    {
+      ease: "none",
+      opacity: 1,
+      stagger: 0.05,
+      scrollTrigger: {
+        trigger: "[data-scroll-text]",
+        start: "top 50%",
+        end: "bottom 60%",
+        scrub: true,
+        pin: false,
+        pinSpacing: false,
+      },
+    }
+  );
 
   let mm = gsap.matchMedia();
   mm.add("(hover:hover)", () => {
     //Text links hover
     textLinks.forEach((link) => {
       const text = link.querySelectorAll(".text-link_text-wrap .char");
-      const textAbs = link.querySelectorAll(".text-link_text.is-abs .char");
+      //const textAbs = link.querySelectorAll(".text-link_text.is-abs .char");
       const textRotateTl = gsap.timeline({ paused: true });
       textRotateTl.to(text, {
         ease: "power3.out",
@@ -200,7 +240,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         0.1
       );
 
-      card.addEventListener("mouseenter", (e) => {
+      card.addEventListener("mouseenter", () => {
         textReveal.restart();
         padReveal.restart();
       });
@@ -218,8 +258,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     listItems[listItems.length - 1].classList.add("is-last");
 
     listItems.forEach(function (li) {
-      li.addEventListener("mouseover", function (e) {
-        let currentItem = e.target;
+      li.addEventListener("mouseover", function () {
+        //let currentItem = e.target;
         let state = Flip.getState(".blog-list_pad", { props: "height" });
         li.appendChild(shape);
         Flip.from(state, {
@@ -242,7 +282,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       });
     });
 
-    listsParent.addEventListener("mouseover", function (e) {
+    listsParent.addEventListener("mouseover", function () {
       shape.classList.add("is-active");
 
       let state = Flip.getState(".blog-list_pad", { props: "height" });
@@ -251,7 +291,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         ease: "power2.out",
       });
     });
-    listsParent.addEventListener("mouseleave", function (e) {
+    listsParent.addEventListener("mouseleave", function () {
       shape.classList.remove("is-active");
       let state = Flip.getState(".blog-list_pad", { props: "height" });
       Flip.from(state, {
@@ -259,76 +299,35 @@ window.addEventListener("DOMContentLoaded", (event) => {
         ease: "power2.out",
       });
     });
-    /////////////////////////
   });
-  // const lenis = new Lenis();
 
-  // function raf(time) {
-  //   lenis.raf(time);
-  //   requestAnimationFrame(raf);
-  // }
-
-  // requestAnimationFrame(raf);
-
-  // lenis.on("scroll", ScrollTrigger.update);
-
-  // gsap.ticker.add((time) => {
-  //   lenis.raf(time * 1200);
-  // });
-
-  //Text on scroll
-
-  gsap.fromTo(
-    textOnScroll,
+  //Bottom letters reveal
+  const contactSection = document.querySelector(".section_contact");
+  const letters = document.querySelectorAll(".footer_text-logo path");
+  const lettersTl = gsap.timeline({ paused: true });
+  lettersTl.fromTo(
+    letters,
     {
-      "will-change": "opacity",
-      opacity: 0.05,
+      y: "100%",
+      opacity: 0,
     },
     {
-      ease: "none",
+      y: "0%",
       opacity: 1,
-      stagger: 0.05,
-      scrollTrigger: {
-        trigger: "[data-scroll-text]",
-        start: "top 10%",
-        end: "bottom 50%",
-        scrub: 1.2,
-        pin: true,
-        pinSpacing: true,
+      stagger: {
+        each: 0.025,
       },
     }
   );
-});
-
-////////////////////
-
-//Bottom letters reveal
-gsap.registerPlugin(ScrollTrigger);
-const contactSection = document.querySelector(".section_contact");
-const letters = document.querySelectorAll(".footer_text-logo path");
-const lettersTl = gsap.timeline({ paused: true });
-lettersTl.fromTo(
-  letters,
-  {
-    y: "100%",
-    opacity: 0,
-  },
-  {
-    y: "0%",
-    opacity: 1,
-    stagger: {
-      each: 0.025,
+  ScrollTrigger.create({
+    trigger: contactSection,
+    start: "bottom 90%",
+    end: "bottom 60%",
+    scrub: true,
+    onEnter: () => {
+      lettersTl.play();
     },
-  }
-);
-ScrollTrigger.create({
-  trigger: contactSection,
-  start: "bottom 90%",
-  end: "bottom 60%",
-  scrub: true,
-  onEnter: () => {
-    lettersTl.play();
-  },
+  });
 });
 
 ////////////////////
