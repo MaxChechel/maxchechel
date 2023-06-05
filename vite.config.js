@@ -9,14 +9,14 @@ export default defineConfig({
   build: {
     minify: true,
     manifest: true,
-    output: [
-      {
-        file: "index.js",
-      },
-    ],
     entryFileNames: "index.js",
     rollupOptions: {
       input: "./src/main.js",
+      output: [
+        {
+          file: "index.js",
+        },
+      ],
     },
   },
 });
