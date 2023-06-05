@@ -12,8 +12,7 @@ export default defineConfig({
     rollupOptions: {
       input: "./src/main.js",
       output: {
-        format: "umd",
-        file: "bundle.js",
+        entryFileNames: "bundle.js",
       },
     },
   },
