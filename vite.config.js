@@ -9,7 +9,6 @@ export default defineConfig({
   build: {
     minify: true,
     manifest: true,
-    entryFileNames: "main.js",
     rollupOptions: {
       input: "./src/main.js",
       output: {
