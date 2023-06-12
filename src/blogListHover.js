@@ -1,4 +1,3 @@
-import { gsap } from "gsap";
 import { Flip } from "gsap/all";
 
 //Blog list items hover

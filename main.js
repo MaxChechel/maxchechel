@@ -6,6 +6,11 @@ import SplitType from "split-type";
 import Lenis from "@studio-freight/lenis";
 
 import { blogListHover } from "./src/blogListHover";
+import { sectionHeadingReveal } from "./src/sectionHeadingReveal";
+import { projectCardsHover } from "./src/projectCardsHover";
+import { blogListItemsReveal } from "./src/blogListItemsReveal";
+import { projectCardsReveal } from "./src/projectCardsReveal";
+import { contactCardsReveal } from "./src/contactCardsReveal";
 
 gsap.registerPlugin(ScrollTrigger, Flip, CustomEase);
 
@@ -45,10 +50,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const textLinks = document.querySelectorAll(".text-link_wrap");
   const textOnScroll = document.querySelectorAll("[data-scroll-text] .word");
-  const customEaseIn = CustomEase.create(
-    "custom-ease-in",
-    "0.47, 0.00, 0.49, 1.00"
-  );
 
   /////////////////////
   const headerPad = document.querySelector(".header_section-pad");
@@ -162,6 +163,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   );
 
+  //Hovers
   let mm = gsap.matchMedia();
   mm.add("(hover:hover)", () => {
     //Text links hover
@@ -184,124 +186,11 @@ window.addEventListener("DOMContentLoaded", () => {
         textRotateTl.reverse();
       });
     });
-    //text links hover end
+
     //Cards hover
-    gsap.set(".projects_split-text", {
-      autoAlpha: 1,
-    });
-    const hoverCards = document.querySelectorAll("[data-hover-card='card']");
-
-    hoverCards.forEach(function (card) {
-      const cardText = card.querySelectorAll("[data-hover-card='text'] .word");
-      const cardPad = card.querySelector("[data-hover-card='pad']");
-
-      const splitText = card.querySelectorAll(
-        "[data-hover-card='split-text'] .char"
-      );
-
-      let textReveal = gsap.timeline({ paused: true });
-      //Card heading
-      textReveal.to(cardText, {
-        duration: 0.8,
-        ease: "power2.inOut",
-        rotation: "345_short",
-        transformOrigin: "bottom left",
-        stagger: { each: 0.05, from: "start" },
-        y: "400%",
-      });
-      //Split text
-      textReveal.fromTo(
-        splitText,
-        {
-          y: "-100%",
-          opacity: 0,
-        },
-        {
-          duration: 0.4,
-          stagger: { each: 0.02, from: "start" },
-          ease: "power4.out",
-          y: "0%",
-          opacity: 1,
-        },
-        0.4
-      );
-      //Pad in
-      let padReveal = gsap.timeline({ paused: true });
-      padReveal.fromTo(
-        cardPad,
-        {
-          y: "-100%",
-        },
-        {
-          duration: 0.3,
-          ease: customEaseIn,
-          y: "0%",
-          opacity: 1,
-        },
-        0.1
-      );
-
-      card.addEventListener("mouseenter", () => {
-        textReveal.restart();
-        padReveal.restart();
-      });
-      card.addEventListener("mouseleave", () => {
-        textReveal.reverse();
-        padReveal.reverse();
-      });
-    });
+    projectCardsHover();
     // //Blog list items hover
     blogListHover();
-    // const listItems = document.querySelectorAll(".blog-list_item"),
-    //   shape = document.querySelector(".blog-list_pad"),
-    //   listsParent = document.querySelector(".blog-list_items-wrap");
-
-    // listItems[0].classList.add("is-first");
-    // listItems[listItems.length - 1].classList.add("is-last");
-
-    // listItems.forEach(function (li) {
-    //   li.addEventListener("mouseover", function () {
-    //     //let currentItem = e.target;
-    //     let state = Flip.getState(".blog-list_pad", { props: "height" });
-    //     li.appendChild(shape);
-    //     Flip.from(state, {
-    //       duration: 0.4,
-    //       ease: "power4.out",
-    //     });
-    //   });
-    //   li.addEventListener("mouseleave", function (e) {
-    //     let currentItem = e.target;
-    //     let state = Flip.getState(".blog-list_pad", { props: "height" });
-    //     if (
-    //       currentItem.classList.contains("is-first") ||
-    //       currentItem.classList.contains("is-last")
-    //     ) {
-    //       Flip.from(state, {
-    //         duration: 0.4,
-    //         ease: "power4.out",
-    //       });
-    //     }
-    //   });
-    // });
-
-    // listsParent.addEventListener("mouseover", function (e) {
-    //   if (e.currentTarget.classList.contains("is-ready"))
-    //     shape.classList.add("is-active");
-
-    //   let state = Flip.getState(".blog-list_pad", { props: "height" });
-    //   Flip.from(state, {
-    //     duration: 0.3,
-    //     ease: "power2.out",
-    //   });
-    // });
-    // listsParent.addEventListener("mouseleave", function () {
-    //   shape.classList.remove("is-active");
-    //   let state = Flip.getState(".blog-list_pad", { props: "height" });
-    //   Flip.from(state, {
-    //     duration: 0.3,
-    //     ease: "power2.out",
-    //   });
-    // });
   });
 
   //Bottom letters reveal
@@ -332,142 +221,110 @@ window.addEventListener("DOMContentLoaded", () => {
     },
   });
 
-  //Blog list section reveal
-  // gsap.set(".blog-list_divider", {
-  //   width: "0%",
-  //   opacity: 0,
-  // });
-  // gsap.set(".blog-list_question h3, .blog-list_category-wrap p", {
-  //   y: "100%",
-  //   opacity: 0,
-  // });
-  // gsap.set(".blog-list_item", {
-  //   pointerEvents: "none",
-  // });
+  //Blog list section reveal//
 
-  function sectionHeadingReveal(heading, subtext) {
-    let tl = gsap.timeline({ paused: true });
-    tl.to(heading, {
-      y: "0%",
-      opacity: 1,
-      stagger: {
-        each: 0.05,
-      },
-    }).to(subtext, {
-      y: "0%",
-      opacity: 1,
-      stagger: {
-        each: 0.05,
-      },
-    });
-    tl.play();
-  }
+  //Set initial states for elements
+  gsap.set(".blog-list_divider", {
+    width: "0%",
+    opacity: 0,
+  });
+  gsap.set(".blog-list_question h3, .blog-list_category-wrap p", {
+    y: "100%",
+    opacity: 0,
+  });
+  gsap.set(
+    "[data-section-element=heading] .word, [data-section-element=subtext] .line",
+    {
+      opacity: 0,
+      y: "100%",
+    }
+  );
   const blogSection = document.querySelector(".section_blog-list");
+  const blogSectionListItems = blogSection.querySelectorAll(".blog-list_item");
   const blogSectionHeading = blogSection.querySelectorAll(
     "[data-section-element=heading] .word"
   );
   const blogSectionSubtext = blogSection.querySelectorAll(
     "[data-section-element=subtext] .line"
   );
-  gsap.set(
-    "[data-section-element=heading] .word, [data-section-element=subtext] .line",
-    {
-      opacity: 0,
-    }
-  );
-  // ScrollTrigger.create({
-  //   trigger: blogSection,
-  //   start: "top 60%",
-  //   end: "top 30%",
-  //   onEnter: () => {
-  //     sectionHeadingReveal(blogSectionHeading, blogSectionSubtext);
 
-  //     batch.forEach((item, index) => {
-  //       const divider = item.querySelector(".blog-list_divider");
-  //       const heading = item.querySelector(".blog-list_question h3");
-  //       const category = item.querySelector(".blog-list_category-wrap p");
-  //       const tl = gsap.timeline({ delay: index * 0.15 });
-  //       tl.to(divider, {
-  //         width: "100%",
-  //         opacity: 1,
-  //         duration: 1.6,
-  //       })
-  //         .to(
-  //           heading,
-  //           {
-  //             y: "0%",
-  //             opacity: 1,
-  //             duration: 0.7,
-  //           },
-  //           "<.6"
-  //         )
-  //         .to(
-  //           item,
-  //           {
-  //             pointerEvents: "all",
-  //           },
-  //           "2"
-  //         )
-  //         .to(
-  //           category,
-  //           {
-  //             y: "0%",
-  //             opacity: 1,
-  //             duration: 0.7,
-  //           },
-  //           "<.1"
-  //         )
-  //         .call(() => {
-  //           item.closest(".blog-list_items-wrap").classList.add("is-ready");
-  //         });
-  //     });
-  //   },
-  // });
-
-  ScrollTrigger.batch(".blog-list_item", {
-    interval: 0.1,
-    start: "30% bottom",
-    end: "50% bottom",
-    onEnter: (batch) => {
-      batch.forEach((item, index) => {
-        const divider = item.querySelector(".blog-list_divider");
-        const heading = item.querySelector(".blog-list_question h3");
-        const category = item.querySelector(".blog-list_category-wrap p");
-        const tl = gsap.timeline({ delay: index * 0.15 });
-        tl.to(divider, {
-          width: "100%",
+  ScrollTrigger.create({
+    trigger: blogSection,
+    start: "top 60%",
+    end: "top 30%",
+    once: true,
+    onEnter: () => {
+      sectionHeadingReveal(blogSectionHeading, blogSectionSubtext);
+      blogListItemsReveal();
+      gsap.fromTo(
+        ".blog-list_cta-wrap .button",
+        {
+          opacity: 0,
+          y: "100%",
+        },
+        {
           opacity: 1,
-          duration: 1.6,
-        })
-          .to(
-            heading,
-            {
-              y: "0%",
-              opacity: 1,
-              duration: 0.7,
-            },
-            "<.6"
-          )
-          .to(
-            item,
-            {
-              pointerEvents: "all",
-            },
-            "2"
-          )
-          .to(
-            category,
-            {
-              y: "0%",
-              opacity: 1,
-              duration: 0.7,
-            },
-            "<.1"
-          )
-          .call(() => {
-            item.closest(".blog-list_items-wrap").classList.add("is-ready");
-          });
-      });
+          y: "0%",
+          ease: "power3.out",
+          duration: 1,
+        },
+        "<1"
+      );
+    },
+  });
+
+  //Projects section reveal//
+
+  //Set initial states for elements
+  gsap.set(".projects_link-wrapper", {
+    borderColor: "#1d1c16",
+  });
+  const projSection = document.querySelector(".section_projects");
+  const projSectionHeading = projSection.querySelectorAll(
+    "[data-section-element=heading] .word"
+  );
+  const projSectionSubtext = projSection.querySelectorAll(
+    "[data-section-element=subtext] .line"
+  );
+
+  ScrollTrigger.create({
+    trigger: projSection,
+    start: "top 60%",
+    end: "top 30%",
+    once: true,
+    onEnter: () => {
+      sectionHeadingReveal(projSectionHeading, projSectionSubtext);
+      projectCardsReveal();
+    },
+  });
+
+  //Contact section reveal//
+
+  //Set initial states for elements
+  gsap.set(".contact_link-wrapper", {
+    borderColor: "#fffdfa",
+  });
+  gsap.set(".contact_link-wrapper h3", {
+    y: "300%",
+  });
+  gsap.set(".contact_link-wrapper .contact_icon", {
+    opacity: 0,
+  });
+  const contactSectionHeading = contactSection.querySelectorAll(
+    "[data-section-element=heading] .word"
+  );
+  const contactSectionSubtext = contactSection.querySelectorAll(
+    "[data-section-element=subtext] .line"
+  );
+
+  ScrollTrigger.create({
+    trigger: contactSection,
+    start: "top 60%",
+    end: "top 30%",
+    once: true,
+    onEnter: () => {
+      sectionHeadingReveal(contactSectionHeading, contactSectionSubtext);
+      contactCardsReveal();
     },
   });
 });
