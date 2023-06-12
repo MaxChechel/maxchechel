@@ -5,6 +5,8 @@ import { Flip } from "gsap/all";
 import SplitType from "split-type";
 import Lenis from "@studio-freight/lenis";
 
+import { blogListHover } from "./src/blogListHover";
+
 gsap.registerPlugin(ScrollTrigger, Flip, CustomEase);
 
 // Lenis smooth scrolling
@@ -34,7 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   const splitWords = new SplitType(
-    "[data-hover-card='text'], [data-scroll-text], [data-hero-heading]",
+    "[data-hover-card='text'], [data-scroll-text], [data-hero-heading], [data-section-element]",
     {
       types: "lines, words",
       tagName: "word",
@@ -43,7 +45,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const textLinks = document.querySelectorAll(".text-link_wrap");
   const textOnScroll = document.querySelectorAll("[data-scroll-text] .word");
-  gsap.registerPlugin(ScrollTrigger, CustomEase);
   const customEaseIn = CustomEase.create(
     "custom-ease-in",
     "0.47, 0.00, 0.49, 1.00"
@@ -78,7 +79,7 @@ window.addEventListener("DOMContentLoaded", () => {
       ".section_header",
       {
         borderRadius: "12px",
-        duration: 1.6,
+        duration: 1.2,
         ease: "power4.inOut",
       },
       "<0"
@@ -98,7 +99,7 @@ window.addEventListener("DOMContentLoaded", () => {
         ease: "power3.out",
         transformOrigin: "bottom left",
         stagger: {
-          each: 0.07,
+          each: 0.08,
         },
       },
       "<.2"
@@ -206,7 +207,7 @@ window.addEventListener("DOMContentLoaded", () => {
         rotation: "345_short",
         transformOrigin: "bottom left",
         stagger: { each: 0.05, from: "start" },
-        y: "300%",
+        y: "400%",
       });
       //Split text
       textReveal.fromTo(
@@ -249,56 +250,58 @@ window.addEventListener("DOMContentLoaded", () => {
         padReveal.reverse();
       });
     });
-    //Blog list items hover
-    const listItems = document.querySelectorAll(".blog-list_item"),
-      shape = document.querySelector(".blog-list_pad"),
-      listsParent = document.querySelector(".blog-list_items-wrap");
+    // //Blog list items hover
+    blogListHover();
+    // const listItems = document.querySelectorAll(".blog-list_item"),
+    //   shape = document.querySelector(".blog-list_pad"),
+    //   listsParent = document.querySelector(".blog-list_items-wrap");
 
-    listItems[0].classList.add("is-first");
-    listItems[listItems.length - 1].classList.add("is-last");
+    // listItems[0].classList.add("is-first");
+    // listItems[listItems.length - 1].classList.add("is-last");
 
-    listItems.forEach(function (li) {
-      li.addEventListener("mouseover", function () {
-        //let currentItem = e.target;
-        let state = Flip.getState(".blog-list_pad", { props: "height" });
-        li.appendChild(shape);
-        Flip.from(state, {
-          duration: 0.4,
-          ease: "power4.out",
-        });
-      });
-      li.addEventListener("mouseleave", function (e) {
-        let currentItem = e.target;
-        let state = Flip.getState(".blog-list_pad", { props: "height" });
-        if (
-          currentItem.classList.contains("is-first") ||
-          currentItem.classList.contains("is-last")
-        ) {
-          Flip.from(state, {
-            duration: 0.4,
-            ease: "power4.out",
-          });
-        }
-      });
-    });
+    // listItems.forEach(function (li) {
+    //   li.addEventListener("mouseover", function () {
+    //     //let currentItem = e.target;
+    //     let state = Flip.getState(".blog-list_pad", { props: "height" });
+    //     li.appendChild(shape);
+    //     Flip.from(state, {
+    //       duration: 0.4,
+    //       ease: "power4.out",
+    //     });
+    //   });
+    //   li.addEventListener("mouseleave", function (e) {
+    //     let currentItem = e.target;
+    //     let state = Flip.getState(".blog-list_pad", { props: "height" });
+    //     if (
+    //       currentItem.classList.contains("is-first") ||
+    //       currentItem.classList.contains("is-last")
+    //     ) {
+    //       Flip.from(state, {
+    //         duration: 0.4,
+    //         ease: "power4.out",
+    //       });
+    //     }
+    //   });
+    // });
 
-    listsParent.addEventListener("mouseover", function () {
-      shape.classList.add("is-active");
+    // listsParent.addEventListener("mouseover", function (e) {
+    //   if (e.currentTarget.classList.contains("is-ready"))
+    //     shape.classList.add("is-active");
 
-      let state = Flip.getState(".blog-list_pad", { props: "height" });
-      Flip.from(state, {
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    });
-    listsParent.addEventListener("mouseleave", function () {
-      shape.classList.remove("is-active");
-      let state = Flip.getState(".blog-list_pad", { props: "height" });
-      Flip.from(state, {
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    });
+    //   let state = Flip.getState(".blog-list_pad", { props: "height" });
+    //   Flip.from(state, {
+    //     duration: 0.3,
+    //     ease: "power2.out",
+    //   });
+    // });
+    // listsParent.addEventListener("mouseleave", function () {
+    //   shape.classList.remove("is-active");
+    //   let state = Flip.getState(".blog-list_pad", { props: "height" });
+    //   Flip.from(state, {
+    //     duration: 0.3,
+    //     ease: "power2.out",
+    //   });
+    // });
   });
 
   //Bottom letters reveal
@@ -328,6 +331,143 @@ window.addEventListener("DOMContentLoaded", () => {
       lettersTl.play();
     },
   });
-});
 
-////////////////////
+  //Blog list section reveal
+  // gsap.set(".blog-list_divider", {
+  //   width: "0%",
+  //   opacity: 0,
+  // });
+  // gsap.set(".blog-list_question h3, .blog-list_category-wrap p", {
+  //   y: "100%",
+  //   opacity: 0,
+  // });
+  // gsap.set(".blog-list_item", {
+  //   pointerEvents: "none",
+  // });
+
+  function sectionHeadingReveal(heading, subtext) {
+    let tl = gsap.timeline({ paused: true });
+    tl.to(heading, {
+      y: "0%",
+      opacity: 1,
+      stagger: {
+        each: 0.05,
+      },
+    }).to(subtext, {
+      y: "0%",
+      opacity: 1,
+      stagger: {
+        each: 0.05,
+      },
+    });
+    tl.play();
+  }
+  const blogSection = document.querySelector(".section_blog-list");
+  const blogSectionHeading = blogSection.querySelectorAll(
+    "[data-section-element=heading] .word"
+  );
+  const blogSectionSubtext = blogSection.querySelectorAll(
+    "[data-section-element=subtext] .line"
+  );
+  gsap.set(
+    "[data-section-element=heading] .word, [data-section-element=subtext] .line",
+    {
+      opacity: 0,
+    }
+  );
+  // ScrollTrigger.create({
+  //   trigger: blogSection,
+  //   start: "top 60%",
+  //   end: "top 30%",
+  //   onEnter: () => {
+  //     sectionHeadingReveal(blogSectionHeading, blogSectionSubtext);
+
+  //     batch.forEach((item, index) => {
+  //       const divider = item.querySelector(".blog-list_divider");
+  //       const heading = item.querySelector(".blog-list_question h3");
+  //       const category = item.querySelector(".blog-list_category-wrap p");
+  //       const tl = gsap.timeline({ delay: index * 0.15 });
+  //       tl.to(divider, {
+  //         width: "100%",
+  //         opacity: 1,
+  //         duration: 1.6,
+  //       })
+  //         .to(
+  //           heading,
+  //           {
+  //             y: "0%",
+  //             opacity: 1,
+  //             duration: 0.7,
+  //           },
+  //           "<.6"
+  //         )
+  //         .to(
+  //           item,
+  //           {
+  //             pointerEvents: "all",
+  //           },
+  //           "2"
+  //         )
+  //         .to(
+  //           category,
+  //           {
+  //             y: "0%",
+  //             opacity: 1,
+  //             duration: 0.7,
+  //           },
+  //           "<.1"
+  //         )
+  //         .call(() => {
+  //           item.closest(".blog-list_items-wrap").classList.add("is-ready");
+  //         });
+  //     });
+  //   },
+  // });
+
+  ScrollTrigger.batch(".blog-list_item", {
+    interval: 0.1,
+    start: "30% bottom",
+    end: "50% bottom",
+    onEnter: (batch) => {
+      batch.forEach((item, index) => {
+        const divider = item.querySelector(".blog-list_divider");
+        const heading = item.querySelector(".blog-list_question h3");
+        const category = item.querySelector(".blog-list_category-wrap p");
+        const tl = gsap.timeline({ delay: index * 0.15 });
+        tl.to(divider, {
+          width: "100%",
+          opacity: 1,
+          duration: 1.6,
+        })
+          .to(
+            heading,
+            {
+              y: "0%",
+              opacity: 1,
+              duration: 0.7,
+            },
+            "<.6"
+          )
+          .to(
+            item,
+            {
+              pointerEvents: "all",
+            },
+            "2"
+          )
+          .to(
+            category,
+            {
+              y: "0%",
+              opacity: 1,
+              duration: 0.7,
+            },
+            "<.1"
+          )
+          .call(() => {
+            item.closest(".blog-list_items-wrap").classList.add("is-ready");
+          });
+      });
+    },
+  });
+});
