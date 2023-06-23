@@ -6,7 +6,7 @@ export function blogListItemsReveal() {
   blogSectionListItems.forEach((item, index) => {
     const divider = item.querySelector(".blog-list_divider");
     const heading = item.querySelector(".blog-list_question h3");
-    const category = item.querySelector(".blog-list_category-wrap p");
+    const category = item.querySelectorAll(".blog-list_category-wrap p");
     const tl = gsap.timeline({ delay: index * 0.2 });
     tl.to(divider, {
       width: "100%",
