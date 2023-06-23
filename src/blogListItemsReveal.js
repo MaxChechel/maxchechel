@@ -33,6 +33,9 @@ export function blogListItemsReveal() {
           y: "0%",
           opacity: 1,
           duration: 0.6,
+          stagger: {
+            each: 0.02,
+          },
         },
         ".7"
       );
