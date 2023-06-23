@@ -130,6 +130,16 @@ window.addEventListener("DOMContentLoaded", () => {
       },
       "<.1"
     )
+    .from(
+      ".header_spinner, .header_spinner-logo",
+      {
+        opacity: 0,
+        width: "0rem",
+        duration: 1,
+        ease: "power3.out",
+      },
+      "<.1"
+    )
     .to(
       "[data-scroll-text]",
       {
