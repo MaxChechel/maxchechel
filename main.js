@@ -51,6 +51,26 @@ window.addEventListener("DOMContentLoaded", () => {
   const textLinks = document.querySelectorAll(".text-link_wrap");
   const textOnScroll = document.querySelectorAll("[data-scroll-text] .word");
 
+  //////////////////
+  const navbar = document.querySelector(".navbar_component");
+  // Function to set the CSS variable value
+  function setCSSVariable(value) {
+    document.documentElement.style.setProperty("--window-height", value + "px");
+  }
+
+  // Function to calculate and update the CSS variable on resize
+  function updateWindowHeight() {
+    // let windowHeight = window.innerHeight;
+    // let navHeight = navbar.offsetHeight;
+    setCSSVariable(window.innerHeight - navbar.offsetHeight - 24);
+  }
+
+  // Initial calculation and update
+  updateWindowHeight();
+
+  // Recalculate and update on window resize
+  window.addEventListener("resize", updateWindowHeight);
+
   /////////////////////
   const headerPad = document.querySelector(".header_section-pad");
   const heroCta = document.querySelector(".header_cta-wrap .button-wrapper");
@@ -135,6 +155,16 @@ window.addEventListener("DOMContentLoaded", () => {
       {
         opacity: 0,
         width: "0rem",
+        duration: 1,
+        ease: "power3.out",
+      },
+      "<.1"
+    )
+    .from(
+      "[data-burger-line]",
+      {
+        opacity: 0,
+        width: "0px",
         duration: 1,
         ease: "power3.out",
       },
