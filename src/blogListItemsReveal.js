@@ -1,7 +1,7 @@
 import { gsap } from "gsap";
 
-export function blogListItemsReveal() {
-  const blogSection = document.querySelector(".section_blog-list");
+export function blogListItemsReveal(targetEl) {
+  const blogSection = targetEl;
   const blogSectionListItems = blogSection.querySelectorAll(".blog-list_item");
   blogSectionListItems.forEach((item, index) => {
     const divider = item.querySelector(".blog-list_divider");

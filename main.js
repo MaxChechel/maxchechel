@@ -53,6 +53,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   //////////////////
   const navbar = document.querySelector(".navbar_component");
+  const blogSection = document.querySelectorAll("[data-section=list]");
   // Function to set the CSS variable value
   function setCSSVariable(value) {
     document.documentElement.style.setProperty("--window-height", value + "px");
@@ -230,7 +231,9 @@ window.addEventListener("DOMContentLoaded", () => {
     //Cards hover
     projectCardsHover();
     // //Blog list items hover
-    blogListHover();
+    blogSection.forEach((section) => {
+      blogListHover(section);
+    });
   });
 
   //Bottom letters reveal
@@ -279,38 +282,40 @@ window.addEventListener("DOMContentLoaded", () => {
       y: "100%",
     }
   );
-  const blogSection = document.querySelector(".section_blog-list");
-  const blogSectionListItems = blogSection.querySelectorAll(".blog-list_item");
-  const blogSectionHeading = blogSection.querySelectorAll(
-    "[data-section-element=heading] .word"
-  );
-  const blogSectionSubtext = blogSection.querySelectorAll(
-    "[data-section-element=subtext] .line"
-  );
 
-  ScrollTrigger.create({
-    trigger: blogSection,
-    start: "top 60%",
-    end: "top 30%",
-    once: true,
-    onEnter: () => {
-      sectionHeadingReveal(blogSectionHeading, blogSectionSubtext);
-      blogListItemsReveal();
-      gsap.fromTo(
-        ".blog-list_cta-wrap .button",
-        {
-          opacity: 0,
-          y: "100%",
-        },
-        {
-          opacity: 1,
-          y: "0%",
-          ease: "power3.out",
-          duration: 1,
-        },
-        "<1"
-      );
-    },
+  blogSection.forEach((section) => {
+    const blogSectionListItems = section.querySelectorAll(".blog-list_item");
+    const blogSectionHeading = section.querySelectorAll(
+      "[data-section-element=heading] .word"
+    );
+    const blogSectionSubtext = section.querySelectorAll(
+      "[data-section-element=subtext] .line"
+    );
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top 60%",
+      end: "top 30%",
+      once: true,
+      onEnter: () => {
+        sectionHeadingReveal(blogSectionHeading, blogSectionSubtext);
+        blogListItemsReveal(section);
+        gsap.fromTo(
+          ".blog-list_cta-wrap .button",
+          {
+            opacity: 0,
+            y: "100%",
+          },
+          {
+            opacity: 1,
+            y: "0%",
+            ease: "power3.out",
+            duration: 1,
+          },
+          "<1"
+        );
+      },
+    });
   });
 
   //Projects section reveal//
